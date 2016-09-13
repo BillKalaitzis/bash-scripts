@@ -1,0 +1,29 @@
+#!/bin/bash
+
+INPUT=$1
+NAME="viewbanned"
+LGREEN='\033[1;32m'
+GREEN='\033[0;32m'
+NC='\033[0m' # No Color
+
+if [[ -z $INPUT ]];then
+	INPUT=20;
+fi
+
+if [ "$INPUT" == "help" ] || [  "$INPUT" == "-h" ] || [ "$INPUT" == "-help" ];then
+	echo "USAGE: $NAME <number of lines to print>"
+	exit
+fi
+
+if [[ "$INPUT" = *[!0-9]* ]];then
+	echo "Error: No integer detected as input."
+	echo "View the -help for more info."
+	exit
+fi
+
+
+echo -e "${GREEN}---------------------------${NC}"
+echo -e "${LGREEN}Bans    IP${NC}"
+zgrep "Ban " /var/log/fail2ban.log* | awk '{print $NF}' | sort | uniq -c | \
+	cut -d " " -f 4- | sed 's/^ \{1,3\}//' | sed 's/ /\t/' | sort -rn | head -n $INPUT
+echo -e "${GREEN}---------------------------${NC}"
