@@ -1,4 +1,5 @@
 #!/bin/bash
+# The script analyzes the fail2ban logs in order to print which hosts have been banned.
 
 INPUT=$1
 NAME="viewbanned"
