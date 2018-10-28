@@ -11,7 +11,7 @@ if [ $# -eq 0 ]; then
 fi
 
 if [ "$1" ==  "start" ]; then
-	cmd=$(ps -e | grep -i openconnect > /dev/null)
+	ps -e | grep -i openconnect > /dev/null
 	exit_code=$?
 	if [ $exit_code -ne 0 ] ; then
 		sudo openconnect --protocol=nc -b -c <certificate> <server> 
